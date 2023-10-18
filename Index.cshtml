@@ -1,0 +1,111 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .FondoRojo {
+        background-color: #ff0000;
+    }
+
+</style>
+
+<h1 id="titulo1">Primer título</h1>
+
+<p id="parrafo">Parrafo 1</p>
+
+<div id="midiv" class="container">
+    Etiqueta
+    <input type="text" value="default" id="texto" />
+    <input type="text" value="default2" id="texto2" class="form-text" />
+</div>
+
+<div id="midiv2" class="container">
+    <input type="button" value="click" id="boton" />
+    <input type="button" value="click2" id="boton2" />
+    <input type="button" value="click ajax" id="botonajax" />
+</div>
+
+<table id="tabla1">
+    <tr>
+        <td>1111111111</td>
+        <td>1111111111</td>
+        <td>1111111111</td>
+        <td>1111111111</td>
+    </tr>
+</table>
+
+<ul id="lista">
+</ul>
+
+
+@section Scripts {
+
+    <script asp-append-version="true">
+
+        let contador = 0;
+
+        $(document).ready(Inicializa);
+
+        function Inicializa() {
+            $("#boton").click(Ejecuta);
+            $("#boton2").click(Ejecuta2);
+            $("#botonajax").click(EjecutaAJAX);
+        }
+
+        function Ejecuta() {
+            //let mensaje = $("#texto").val();
+            //let mensaje2 = $("#parrafo").text();
+            //let mensaje3 = $(".form-text").val();
+            // alert(mensaje3);
+            //let objeto = $("#tabla1");
+            // objeto.css("background-color","#00ff00");
+            //objeto.attr("border", 1);
+            //objeto.addClass("FondoRojo");
+            //alert(objeto.html());
+            // objeto.show();
+
+            let objeto = $("#lista");
+            objeto.append("<li>elemento " + contador + "</li>");
+            contador++;
+        }
+
+        function Ejecuta2() {
+            //let objeto = $("#tabla1");
+            //objeto.removeAttr("border");
+            //objeto.removeClass("FondoRojo");
+            //objeto.hide();
+            let objeto = $("#lista li");
+            for (i = 0; i <= objeto.length; i++) {
+                objeto.eq(i).remove();
+            }
+
+        }
+
+        function EjecutaAJAX() {
+            let n = $("#texto").val();
+            let param = {nombre: n};
+
+            $.ajax({
+                type: "GET",
+                url: "/Home/DevuelveSaludo",
+                data: param,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: successFunc,
+                error: errorFunc
+            });
+
+            function successFunc(resultado) {
+                alert(JSON.parse(resultado));
+            }
+
+            function errorFunc() {
+                console.log("error");
+            }
+
+        }
+
+    </script>
+
+}
+
